@@ -20,10 +20,20 @@ angular
         controller: 'MainCtrl',
         controllerAs: 'main'
       })
-      .when('/about', {
-        templateUrl: 'views/about.html',
-        controller: 'AboutCtrl',
-        controllerAs: 'about'
+      .when('/connexion', {
+        templateUrl: '../views/connexion.html',
+        controller: 'ConnexionCtrl',
+        controllerAs: 'connexion'
+      })
+      .when('/music', {
+        templateUrl: '../views/loadMusic.html',
+        controller: 'LoadMusicCtrl',
+        controllerAs: 'loadMusic'
+      })
+      .when('/mix', {
+        templateUrl: '../views/mix.html',
+        controller: 'MixCtrl',
+        controllerAs: 'mix'
       })
       .otherwise({
         redirectTo: '/'
