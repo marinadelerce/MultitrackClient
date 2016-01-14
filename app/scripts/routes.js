@@ -16,6 +16,11 @@ angular
   .config(function ($routeProvider) {
     $routeProvider
       .when('/', {
+        templateUrl: 'index.html',
+        controller: 'NavCtrl',
+        controllerAs: 'nav'
+      })
+      .when('/', {
         templateUrl: 'views/main.html',
         controller: 'MainCtrl',
         controllerAs: 'main'
@@ -25,7 +30,7 @@ angular
         controller: 'ConnexionCtrl',
         controllerAs: 'connexion'
       })
-      .when('/music', {
+      .when('/loadMusic', {
         templateUrl: '../views/loadMusic.html',
         controller: 'LoadMusicCtrl',
         controllerAs: 'loadMusic'
