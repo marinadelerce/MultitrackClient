@@ -17,6 +17,9 @@ angular
     'ngSanitize',
     'ngTouch'
   ])
+  .config(function($locationProvider) {
+    $locationProvider.html5Mode(true).hashPrefix('!');
+  })
   .config(function ($routeProvider) {
     $routeProvider
       .when('/', {
