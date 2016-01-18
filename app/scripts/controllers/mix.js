@@ -11,10 +11,31 @@
  * Controller of the multitrackClientApp
  */
 angular.module('multitrackClientApp')
-  .controller('MixCtrl', function () {
-    this.awesomeThings = [
-      'HTML5 Boilerplate',
-      'AngularJS',
-      'Karma'
-    ];
+  .controller('MixCtrl', function ($scope, $http) {
+    $scope.musics = [];
+    var myInit = function() {
+      $http.get("http://localhost:8081/song")
+        .then(function(res){
+          $scope.musics = res;
+          console.log(res);
+
+        }, function (error){
+          console.log(error);
+        });
+      console.log("baaaaahhhh");
+    };
+    angular.element(document).ready(myInit);
+
+
+    $scope.searchMixes = function(selectedMusic){
+      console.log("badabou");
+      $http.get("http://localhost:8081/mix/"+selectedMusic._id)
+        .then(function(res){
+          $scope.mixes = res;
+          console.log(res);
+
+        }, function (error){
+          console.log(error);
+        });
+    }
   });
