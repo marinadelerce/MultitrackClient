@@ -16,5 +16,5 @@ angular.module('multitrackClientApp')
     ];
     $scope.isActive = function(destination){
       return destination === $scope.path();
-    }
+    };
   });

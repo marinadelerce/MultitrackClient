@@ -16,9 +16,9 @@ angular.module('multitrackClientApp')
     var myInit = function() {
       $http.get("http://localhost:8081/song")
         .then(function(res){
-          $scope.musics = res;
+          $scope.musics = res.data;
           console.log(res);
-
+          console.log($scope.musics[0]);
         }, function (error){
           console.log(error);
         });
@@ -31,11 +31,11 @@ angular.module('multitrackClientApp')
       console.log("badabou");
       $http.get("http://localhost:8081/mix/"+selectedMusic._id)
         .then(function(res){
-          $scope.mixes = res;
+          $scope.mixes = res.data;
           console.log(res);
 
         }, function (error){
           console.log(error);
         });
-    }
+    };
   });
