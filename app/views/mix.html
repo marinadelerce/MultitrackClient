@@ -10,7 +10,7 @@
   <select ng-options="mix.name for mix in mixes" ng-model="selectedMix">
     <option value="">Liste des mixes</option>
   </select>
-  <button class="btn btn-primary" ng-click="loadMusic()" ng-disabled="!musicChanged">Charger</button>
+  <button class="btn btn-primary" ng-click="loadMusic(selectedMusic,selectedMix)" ng-disabled="!musicChanged">Charger</button>
 </div>
 
 <div>

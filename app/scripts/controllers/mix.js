@@ -11,7 +11,7 @@
  * Controller of the multitrackClientApp
  */
 angular.module('multitrackClientApp')
-  .controller('MixCtrl', function ($scope, $http) {
+  .controller('MixCtrl', function ($scope, $http, $location) {
     $scope.musics = [];
     var myInit = function() {
       $http.get("http://localhost:8081/song")
@@ -22,7 +22,6 @@ angular.module('multitrackClientApp')
         }, function (error){
           console.log(error);
         });
-      console.log("baaaaahhhh");
     };
     angular.element(document).ready(myInit);
 
@@ -37,5 +36,9 @@ angular.module('multitrackClientApp')
         }, function (error){
           console.log(error);
         });
+    };
+
+    $scope.loadMusic =  function(selectedMusic, selectedMix){
+
     };
   });
