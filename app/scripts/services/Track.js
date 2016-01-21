@@ -13,24 +13,29 @@
  */
 angular.module('multitrackClientApp')
   .factory('Track', function () {
-    this.name = name;
-    this.url = url;
+    var name = null;
+    var url = null;
 
-    this.volumeNode = null;
-    this.buffer = null;
-    this.sample = null;
+    var volumeNode = null;
+    var buffer = null;
+    var sample = null;
 
-    this.muted=false;
+    var muted=false;
+
+    var init = function(name, url){
+      this.name=name;
+      this.url=url;
+    };
 
     var setVolume = function (value) {
-      if (this.volumeNode != undefined)
-        this.volumeNode.gain.value = value;
+      if (volumeNode != undefined)
+        volumeNode.gain.value = value;
     };
 
     var muteUnmute = function () {
-      if (this.volumeNode != undefined) {
-        this.muted = !this.muted;
-        this.volumeNode.gain.value = (this.muted ? 0 : 1);
+      if (volumeNode != undefined) {
+        muted = !muted;
+        volumeNode.gain.value = (muted ? 0 : 1);
       }
     };
   });
