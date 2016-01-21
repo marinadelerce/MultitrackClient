@@ -1,4 +1,4 @@
-<div>
+<div ng-show="!loadOK">
   <span>Choisissez un titre : </span>
   <select ng-options="music.song for music in musics" ng-model="selectedMusic" ng-change="searchMixes(selectedMusic);
   musicChanged=true">
@@ -13,7 +13,7 @@
   <button class="btn btn-primary" ng-click="loadMusic(selectedMusic,selectedMix)" ng-disabled="!musicChanged">Charger</button>
 </div>
 
-<div>
+<div ng-show="loadOK">
   <h2>{{selectedMix}}</h2>
 
 </div>

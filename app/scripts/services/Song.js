@@ -11,7 +11,7 @@
  * Service of the multitrackClientApp
  */
 angular.module('multitrackClientApp')
-  .factory('Song', function () {
+  .factory('Song', function (Track) {
 
     var metadata = null;
     var audioContext = null;
@@ -30,8 +30,9 @@ angular.module('multitrackClientApp')
     var masterVolumeNode = null;
     var graphToBuild = true;
 
-    var setMetadata = function(metadata){
+    var init = function(metadata, context){
       this.metadata = metadata;
+      this.audioContext = context;
     }
 
     var play = function() {
@@ -50,7 +51,7 @@ angular.module('multitrackClientApp')
 
 
     var playFrom = function(startTime) {
-      racks.forEach(function(track) {
+      tracks.forEach(function(track) {
         track.sample.start(0, startTime);
       });
       elapsedTimeSinceStart = startTime;
@@ -70,91 +71,91 @@ angular.module('multitrackClientApp')
     };
 
     var stop = function() {
-      if (this.played) {
-        this.pause();
-        this.elapsedTimeSinceStart=0;
+      if (played) {
+        pause();
+        elapsedTimeSinceStart=0;
       }
     };
 
     var loadTracks = function() {
       var urlList = [];
       console.log(tracks.length);
-      this.tracks.forEach(function(track) {
+      tracks.forEach(function(track) {
         urlList.push(track.url);
       });
 
       function finishedLoading(bufferList) {
         for (var i=0; i< bufferList.length; i++) {
-          this.song.tracks[i].buffer = bufferList[i];
+          song.tracks[i].buffer = bufferList[i];
         }
       }
 
-      this.bufferLoader = new BufferLoader(this.audioContext, urlList, finishedLoading);
-      this.bufferLoader.song = this;
-      this.bufferLoader.load();
+      bufferLoader = new BufferLoader(audioContext, urlList, finishedLoading);
+      bufferLoader.song = this;
+      bufferLoader.load();
     };
 
     var buildGraph = function() {
       var sources = [];
       // Create a single gain node for master volume
-      this.masterVolumeNode = this.audioContext.createGain();
-      for (var i = 0; i<this.tracks.length; i++) {
+      this.masterVolumeNode = audioContext.createGain();
+      for (var i = 0; i<tracks.length; i++) {
 // each sound sample is the  source of a graph
-        sources[i] = this.audioContext.createBufferSource();
-        sources[i].buffer = this.tracks[i].buffer;
+        sources[i] = audioContext.createBufferSource();
+        sources[i].buffer = tracks[i].buffer;
         // connect each sound sample to a vomume node
-        this.tracks[i].volumeNode = this.audioContext.createGain();
+        tracks[i].volumeNode = audioContext.createGain();
         // Connect the sound sample to its volume node
-        sources[i].connect(this.tracks[i].volumeNode);
+        sources[i].connect(tracks[i].volumeNode);
         // Connects all track volume nodes a single master volume node
-        this.tracks[i].volumeNode.connect(this.masterVolumeNode);
+        tracks[i].volumeNode.connect(masterVolumeNode);
         // On active les boutons start et stop
-        this.tracks[i].sample = sources[i];
+        tracks[i].sample = sources[i];
       }
       // Connect the master volume to the speakers
-      this.masterVolumeNode.connect(this.audioContext.destination);
+      masterVolumeNode.connect(audioContext.destination);
     };
 
     var buildSourceNodes = function() {
       var sources = [];
 
-      for (var i=0; i < this.tracks.length; i++) {
-        sources[i] = this.audioContext.createBufferSource();
-        sources[i].buffer = this.tracks[i].buffer;
-        sources[i].connect(this.tracks[i].volumeNode);
-        this.tracks[i].sample = sources[i];
+      for (var i=0; i < tracks.length; i++) {
+        sources[i] = audioContext.createBufferSource();
+        sources[i].buffer = tracks[i].buffer;
+        sources[i].connect(tracks[i].volumeNode);
+        tracks[i].sample = sources[i];
       }
     }
 
     var setMasterVolume = function(value) {
-      if( this.masterVolumeNode != undefined)
-        this.masterVolumeNode.gain.value = value;
+      if( masterVolumeNode != undefined)
+        masterVolumeNode.gain.value = value;
     };
 
     var setTrackVolume = function(trackNumber, value) {
       if (tracks[trackNumber] != undefined) {
-        this.tracks[trackNumber].setVolume(value);
+        tracks[trackNumber].setVolume(value);
       }
     };
 
     var muteUnmuteTrack = function(trackNumber) {
       if (tracks[trackNumber] != undefined) {
-        this.tracks[trackNumber].muteUnmute();
+        tracks[trackNumber].muteUnmute();
       }
     };
 
     var getDuration = function() {
-      return (this.tracks.length ? this.tracks[0].buffer.duration : 0);
+      return (tracks.length ? tracks[0].buffer.duration : 0);
     };
 
     var updateTime = function() {
-      this.currentTime = this.audioContext.currentTime;
-      this.delta = this.currentTime - this.lastTime;
-      this.elapsedTimeSinceStart += this.delta;
-      this.lastTime = this.currentTime;
+      currentTime = audioContext.currentTime;
+      delta = currentTime - lastTime;
+      elapsedTimeSinceStart += delta;
+      lastTime = currentTime;
     };
 
     var addTrack = function(name, url, trackNumber) {
-      this.tracks[trackNumber] = new Track(name, url);
+      tracks[trackNumber] = new Track(name, url);
     };
   });

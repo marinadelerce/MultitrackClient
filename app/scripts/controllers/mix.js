@@ -11,10 +11,10 @@
  * Controller of the multitrackClientApp
  */
 angular.module('multitrackClientApp')
-  .controller('MixCtrl', function ($scope, $http, $location) {
+  .controller('MixCtrl', function ($scope, $http, $location, $window, Constants, Song) {
     $scope.musics = [];
     var myInit = function() {
-      $http.get("http://localhost:8081/song")
+      $http.get(Constants.backendUrl + Constants.songPath)
         .then(function(res){
           $scope.musics = res.data;
           console.log(res);
@@ -28,7 +28,7 @@ angular.module('multitrackClientApp')
 
     $scope.searchMixes = function(selectedMusic){
       console.log("badabou");
-      $http.get("http://localhost:8081/mix/"+selectedMusic._id)
+      $http.get(Constants.backendUrl + Constants.mixPath + $scope.selectedMusic._id)
         .then(function(res){
           $scope.mixes = res.data;
           console.log(res);
@@ -38,7 +38,19 @@ angular.module('multitrackClientApp')
         });
     };
 
-    $scope.loadMusic =  function(selectedMusic, selectedMix){
+    $scope.loadMusic =  function(){
+      if(typeof($scope.selectedMix) != null){
+        var audioContext = $window.AudioContext || $window.webkitAudioContext;
+        var ctx = new audioContext();
+        var metadata = $scope.selectedMix.name;
+        Song.init(metadata,ctx);
+       //TODO Song.addTrack
+       // loadtrack
+       // play
+      }
+      else {
 
+      }
+      $http.get("")
     };
   });
