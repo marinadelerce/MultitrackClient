@@ -34,6 +34,6 @@ angular.module('multitrackClientApp')
         },
       }, name, url);
 
-    }
+    };
     return Track;
   });

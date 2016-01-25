@@ -11,151 +11,150 @@
  * Service of the multitrackClientApp
  */
 angular.module('multitrackClientApp')
-  .factory('Song', function (Track) {
+  .factory('Song', function (Track, BufferLoader) {
 
-    var metadata = null;
-    var audioContext = null;
+    return {
+        metadata : null,
+        audioContext : null,
+        url : "",
+        tracks : [],
+        elapsedTimeSinceStart : 0,
+        currentTime : 0,
+        lastTime : 0,
+        delta : 0,
 
-    var url = "";
-    var tracks = [];
-    var elapsedTimeSinceStart = 0;
-    var currentTime = 0;
-    var lastTime = 0;
-    var delta = 0;
+        played : false,
+        paused : true,
 
-    var played = false;
-    var paused = true;
+        bufferLoader : null,
+        masterVolumeNode : null,
+        graphToBuild : true,
+      init:function(metadata, context){
+        this.metadata = metadata;
+        this.audioContext = context;
+      },
 
-    var bufferLoader = null;
-    var masterVolumeNode = null;
-    var graphToBuild = true;
+      play:function() {
+        this.played=true;
+        this.paused=false;
 
-    var init = function(metadata, context){
-      this.metadata = metadata;
-      this.audioContext = context;
-    }
-
-    var play = function() {
-      played=true;
-      paused=false;
-
-      if (graphToBuild) {
-        buildGraph();
-        graphToBuild = false;
-      }
-      else {
-        buildSourceNodes();
-      }
-      playFrom(elapsedTimeSinceStart);
-    };
+        if (this.graphToBuild) {
+          this.buildGraph();
+          this.graphToBuild = false;
+        }
+        else {
+          this.buildSourceNodes();
+        }
+        this.playFrom(this.elapsedTimeSinceStart);
+      },
 
 
-    var playFrom = function(startTime) {
-      tracks.forEach(function(track) {
-        track.sample.start(0, startTime);
-      });
-      elapsedTimeSinceStart = startTime;
-      lastTime = audioContext.currentTime;
-    };
+      playFrom : function(startTime) {
+        this.tracks.forEach(function(track) {
+          track.sample.start(0, startTime);
+        });
+        this.elapsedTimeSinceStart = startTime;
+        this.lastTime = this.audioContext.currentTime;
+      },
 
-    var pause = function() {
-      if (played) {
-        tracks.forEach(function (track) {
-// destroy the nodes
-          track.sample.stop(0);
+      pause : function() {
+        if (this.played) {
+          this.tracks.forEach(function (track) {
+  // destroy the nodes
+            track.sample.stop(0);
+          });
+
+          this.played = false;
+          this.paused = true;
+        }
+      },
+
+      stop : function() {
+        if (this.played) {
+          this.pause();
+          this.elapsedTimeSinceStart=0;
+        }
+      },
+
+      loadTracks : function() {
+        var urlList = [];
+        console.log(this.tracks.length);
+        this.tracks.forEach(function(track) {
+          urlList.push(track.url);
         });
 
-        played = false;
-        paused = true;
-      }
-    };
-
-    var stop = function() {
-      if (played) {
-        pause();
-        elapsedTimeSinceStart=0;
-      }
-    };
-
-    var loadTracks = function() {
-      var urlList = [];
-      console.log(tracks.length);
-      tracks.forEach(function(track) {
-        urlList.push(track.url);
-      });
-
-      function finishedLoading(bufferList) {
-        for (var i=0; i< bufferList.length; i++) {
-          song.tracks[i].buffer = bufferList[i];
+        function finishedLoading(bufferList) {
+          for (var i=0; i< bufferList.length; i++) {
+            this.song.tracks[i].buffer = bufferList[i];
+          }
         }
+
+        this.bufferLoader = new BufferLoader(this.audioContext, urlList, finishedLoading);
+        this.bufferLoader.song = this;
+        this.bufferLoader.load();
+      },
+
+      buildGraph : function() {
+        var sources = [];
+        // Create a single gain node for master volume
+        this.masterVolumeNode = this.audioContext.createGain();
+        for (var i = 0; i<this.tracks.length; i++) {
+  // each sound sample is the  source of a graph
+          sources[i] = this.audioContext.createBufferSource();
+          sources[i].buffer = this.tracks[i].buffer;
+          // connect each sound sample to a vomume node
+          this.tracks[i].volumeNode = this.audioContext.createGain();
+          // Connect the sound sample to its volume node
+          sources[i].connect(this.tracks[i].volumeNode);
+          // Connects all track volume nodes a single master volume node
+          this.tracks[i].volumeNode.connect(this.masterVolumeNode);
+          // On active les boutons start et stop
+          this.tracks[i].sample = sources[i];
+        }
+        // Connect the master volume to the speakers
+        this.masterVolumeNode.connect(this.audioContext.destination);
+      },
+
+      buildSourceNodes : function() {
+        var sources = [];
+
+        for (var i=0; i < this.tracks.length; i++) {
+          sources[i] = this.audioContext.createBufferSource();
+          sources[i].buffer = this.tracks[i].buffer;
+          sources[i].connect(this.tracks[i].volumeNode);
+          this.tracks[i].sample = sources[i];
+        }
+      },
+
+      setMasterVolume : function(value) {
+        if( this.masterVolumeNode != undefined)
+          this.masterVolumeNode.gain.value = value;
+      },
+
+      setTrackVolume : function(trackNumber, value) {
+        if (this.tracks[trackNumber] != undefined) {
+          this.tracks[trackNumber].setVolume(value);
+        }
+      },
+
+      muteUnmuteTrack : function(trackNumber) {
+        if (this.tracks[trackNumber] != undefined) {
+          this.tracks[trackNumber].muteUnmute();
+        }
+      },
+
+      getDuration : function() {
+        return (this.tracks.length ? this.tracks[0].buffer.duration : 0);
+      },
+
+      updateTime : function() {
+        this.currentTime = this.audioContext.currentTime;
+        this.delta = this.currentTime - this.lastTime;
+        this.elapsedTimeSinceStart += this.delta;
+        this.lastTime = this.currentTime;
+      },
+
+      addTrack : function(name, url, trackNumber) {
+        this.tracks[trackNumber] = new Track(name, url);
       }
-
-      bufferLoader = new BufferLoader(audioContext, urlList, finishedLoading);
-      bufferLoader.song = this;
-      bufferLoader.load();
-    };
-
-    var buildGraph = function() {
-      var sources = [];
-      // Create a single gain node for master volume
-      this.masterVolumeNode = audioContext.createGain();
-      for (var i = 0; i<tracks.length; i++) {
-// each sound sample is the  source of a graph
-        sources[i] = audioContext.createBufferSource();
-        sources[i].buffer = tracks[i].buffer;
-        // connect each sound sample to a vomume node
-        tracks[i].volumeNode = audioContext.createGain();
-        // Connect the sound sample to its volume node
-        sources[i].connect(tracks[i].volumeNode);
-        // Connects all track volume nodes a single master volume node
-        tracks[i].volumeNode.connect(masterVolumeNode);
-        // On active les boutons start et stop
-        tracks[i].sample = sources[i];
-      }
-      // Connect the master volume to the speakers
-      masterVolumeNode.connect(audioContext.destination);
-    };
-
-    var buildSourceNodes = function() {
-      var sources = [];
-
-      for (var i=0; i < tracks.length; i++) {
-        sources[i] = audioContext.createBufferSource();
-        sources[i].buffer = tracks[i].buffer;
-        sources[i].connect(tracks[i].volumeNode);
-        tracks[i].sample = sources[i];
-      }
-    }
-
-    var setMasterVolume = function(value) {
-      if( masterVolumeNode != undefined)
-        masterVolumeNode.gain.value = value;
-    };
-
-    var setTrackVolume = function(trackNumber, value) {
-      if (tracks[trackNumber] != undefined) {
-        tracks[trackNumber].setVolume(value);
-      }
-    };
-
-    var muteUnmuteTrack = function(trackNumber) {
-      if (tracks[trackNumber] != undefined) {
-        tracks[trackNumber].muteUnmute();
-      }
-    };
-
-    var getDuration = function() {
-      return (tracks.length ? tracks[0].buffer.duration : 0);
-    };
-
-    var updateTime = function() {
-      currentTime = audioContext.currentTime;
-      delta = currentTime - lastTime;
-      elapsedTimeSinceStart += delta;
-      lastTime = currentTime;
-    };
-
-    var addTrack = function(name, url, trackNumber) {
-      tracks[trackNumber] = new Track(name, url);
-    };
-  });
+  }});
