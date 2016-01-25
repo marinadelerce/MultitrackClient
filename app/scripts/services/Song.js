@@ -58,6 +58,8 @@ angular.module('multitrackClientApp')
       },
 
       pause : function() {
+        this.updateTime();
+        console.log(this.elapsedTimeSinceStart);
         if (this.played) {
           this.tracks.forEach(function (track) {
   // destroy the nodes
