@@ -40,7 +40,7 @@ angular.module('multitrackClientApp')
 
     $scope.loadMusic =  function(){
       if(typeof($scope.selectedMix) != "undefined"){
-        var audioContext = $window.AudioContext || $window.webkitAudioContext;
+        var audioContext = $window.AudioContext || $window.mozAudioContext || $window.webkitAudioContext;
         var ctx = new audioContext();
         var metadata = $scope.selectedMix.name;
         Song.init(metadata,ctx);
@@ -48,7 +48,7 @@ angular.module('multitrackClientApp')
           Song.addTrack(new Track(element.name, element.path));
         });
         Song.loadTracks();
-        Song.play();
+
       }
       else if (typeof($scope.selectedMusic) != "undefined" && typeof($scope.selectedMix) == "undefined"){
         var audioContext = $window.AudioContext || $window.webkitAudioContext;
@@ -61,8 +61,12 @@ angular.module('multitrackClientApp')
           Song.addTrack(element.name, Constants.backendUrl+element.path, index);
         });
         Song.loadTracks();
-        Song.play();
-        Song.setMasterVolume(1);
+
       }
+    };
+
+    $scope.playSong = function(){
+      Song.play();
+      Song.setMasterVolume(1);
     };
   });
