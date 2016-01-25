@@ -69,4 +69,12 @@ angular.module('multitrackClientApp')
       Song.play();
       Song.setMasterVolume(1);
     };
+
+    $scope.pauseSong = function () {
+      Song.pause();
+    }
+
+    $scope.stopSong = function(){
+      Song.stop();
+    }
   });

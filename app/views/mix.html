@@ -11,7 +11,9 @@
     <option value="">Liste des mixes</option>
   </select>
   <button class="btn btn-primary" ng-click="loadMusic()" ng-disabled="!musicChanged">Charger</button>
-  <button class="btn btn-primary" ng-click="playSong()" ng-disabled="!musicChanged">Lire</button>
+  <button class="glyphicon glyphicon-play btn btn-success" ng-click="playSong()" ng-disabled="!musicChanged"></button>
+  <button class="glyphicon glyphicon-pause btn btn-warning" ng-click="pauseSong()" ng-disabled="!musicChanged"></button>
+  <button class="glyphicon glyphicon-stop btn btn-danger" ng-click="stopSong()" ng-disabled="!musicChanged"></button>
 </div>
 
 <div ng-show="loadOK">
