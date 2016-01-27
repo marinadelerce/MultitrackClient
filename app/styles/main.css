@@ -67,6 +67,32 @@ body {
 
 }
 
+.btn-circle{
+  border-radius: 50%;
+}
+
+input[type='range']{
+ -webkit-appearance: none;
+  background-color: grey;
+  width: 200px;
+  height: 10px;
+  -webkit-transform: rotate(270deg);
+  -moz-transform: rotate(270deg);
+  -ms-transform: rotate(270deg);
+  -o-transform: rotate(270deg);
+  transform: rotate(270deg);
+  z-index: 0;
+  position: absolute;
+  top: 60%;
+}
+
+input[type='range']::-webkit-slider-thumb{
+  -webkit-appearance: none;
+  background-color: black;
+  width: 20px;
+  height: 20px;
+}
+
 /* Responsive: Portrait tablets and up */
 @media screen and (min-width: 768px) {
   .container {

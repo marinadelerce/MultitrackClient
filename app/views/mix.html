@@ -18,11 +18,16 @@
   <button class="glyphicon glyphicon-menu-left btn btn-primary" ng-click="loadOK=false">Retour</button>
   </br>
   <div class="col-sm-6 pull-right">
-    <button class="glyphicon glyphicon-play btn btn-success" ng-click="playSong()" ng-disabled="!musicChanged"></button>
-    <button class="glyphicon glyphicon-pause btn btn-warning" ng-click="pauseSong()" ng-disabled="!musicChanged"></button>
-    <button class="glyphicon glyphicon-stop btn btn-danger" ng-click="stopSong()" ng-disabled="!musicChanged"></button>
+    <button class="glyphicon glyphicon-play btn btn-success btn-circle" ng-click="playSong()" ng-disabled="!musicChanged"></button>
+    <button class="glyphicon glyphicon-pause btn btn-warning btn-circle" ng-click="pauseSong()" ng-disabled="!musicChanged"></button>
+    <button class="glyphicon glyphicon-stop btn btn-danger btn-circle" ng-click="stopSong()" ng-disabled="!musicChanged"></button>
   </div>
 
-
+  <div ng-show="true" >
+    <input type="range" min="0" max="1" step="0.1" ng-model="volume" ng-change="volumeChanged(null)"/>
+    <!--<div ng-repeat="track in selectedMusic.track">
+      <input type="range" min="0" max="1" step="0.1" ng-model="volume" ng-change="volumeChanged(track)"/>
+    </div-->
+  </div>
 
 </div>
