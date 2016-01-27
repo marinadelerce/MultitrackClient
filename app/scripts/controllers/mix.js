@@ -58,7 +58,8 @@ angular.module('multitrackClientApp')
         var metadata = $scope.selectedMusic.song;
         Song.init(metadata,ctx);
         $scope.selectedMusic.track.forEach(function(element, index){
-          console.log(element);
+          $scope.selectedMusic.track[index].num = index;
+          console.log($scope.selectedMusic.track[index].num);
           Song.addTrack(element.name, Constants.backendUrl+element.path, index);
         });
         Song.loadTracks();
@@ -69,7 +70,6 @@ angular.module('multitrackClientApp')
 
     $scope.playSong = function(){
       Song.play();
-      Song.setMasterVolume(1);
     };
 
     $scope.pauseSong = function () {
@@ -80,7 +80,16 @@ angular.module('multitrackClientApp')
       Song.stop();
     };
 
-    $scope.volumeChanged = function (track) {
+    $scope.volumeChanged = function () {
       Song.setMasterVolume($scope.volume);
     };
+
+    /*Erreur volumeNode des tracks*/
+    $scope.volumeTrackChanged = function (track) {
+      Song.setTrackVolume(track.num,$scope.volume);
+    };
+
+    $scope.muteTrack = function(track) {
+      Song.muteUnmuteTrack(track.num);
+    }
   });

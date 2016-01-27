@@ -17,17 +17,22 @@
   <h2>{{selectedMix}}</h2>
   <button class="glyphicon glyphicon-menu-left btn btn-primary" ng-click="loadOK=false">Retour</button>
   </br>
-  <div class="col-sm-6 pull-right">
+  <div class="col-sm-6 pull-right" ng-init="showSlider=false">
     <button class="glyphicon glyphicon-play btn btn-success btn-circle" ng-click="playSong()" ng-disabled="!musicChanged"></button>
     <button class="glyphicon glyphicon-pause btn btn-warning btn-circle" ng-click="pauseSong()" ng-disabled="!musicChanged"></button>
     <button class="glyphicon glyphicon-stop btn btn-danger btn-circle" ng-click="stopSong()" ng-disabled="!musicChanged"></button>
+    <button class="btn btn-default btn-circle glyphicon glyphicon-volume-down" ng-click="showSlider=!showSlider"></button>
+    <input ng-show="showSlider" type="range" min="0" max="1" step="0.1" ng-model="volume" ng-change="volumeChanged()"/>
   </div>
 
-  <div ng-show="true" >
-    <input type="range" min="0" max="1" step="0.1" ng-model="volume" ng-change="volumeChanged(null)"/>
-    <!--<div ng-repeat="track in selectedMusic.track">
-      <input type="range" min="0" max="1" step="0.1" ng-model="volume" ng-change="volumeChanged(track)"/>
-    </div-->
+  <div class="col-sm-12" >
+    <ul class="list-inline">
+      <li ng-repeat="track in selectedMusic.track">
+        {{track.name}}
+        <input type="range" min="0" max="1" step="0.1" ng-model="volume" ng-change="volumeTrackChanged(track)"/>
+        <button class="btn btn-default btn-circle glyphicon glyphicon-volume-off" ng-click="muteTrack(track)"></button>
+      </li>
+    </ul>
   </div>
 
 </div>
