@@ -13,6 +13,7 @@
 angular.module('multitrackClientApp')
   .controller('MixCtrl', function ($scope, $http, $location, $window, Constants, Song, Track) {
     $scope.musics = [];
+    $scope.loadOK = false;
     var myInit = function() {
       $http.get(Constants.backendUrl + Constants.songPath)
         .then(function(res){
@@ -63,6 +64,7 @@ angular.module('multitrackClientApp')
         Song.loadTracks();
 
       }
+      $scope.loadOK=true;
     };
 
     $scope.playSong = function(){
