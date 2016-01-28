@@ -21,18 +21,21 @@
     <button class="glyphicon glyphicon-play btn btn-success btn-circle" ng-click="playSong()" ng-disabled="!musicChanged"></button>
     <button class="glyphicon glyphicon-pause btn btn-warning btn-circle" ng-click="pauseSong()" ng-disabled="!musicChanged"></button>
     <button class="glyphicon glyphicon-stop btn btn-danger btn-circle" ng-click="stopSong()" ng-disabled="!musicChanged"></button>
-    <button class="btn btn-default btn-circle glyphicon glyphicon-volume-down" ng-click="showSlider=!showSlider"></button>
-    <input ng-show="showSlider" type="range" min="0" max="1" step="0.1" ng-model="volume" ng-change="volumeChanged()"/>
+    <!--button class="btn btn-default btn-circle glyphicon glyphicon-volume-down" ng-click="showSlider=!showSlider"></button>
+    <input class="volumeAll" ng-show="showSlider" type="range" min="0" max="1" step="0.1" ng-model="volume" ng-change="volumeChanged()"/-->
   </div>
-  <div class="col-sm-12" style="margin-top: 20%;">
+  <div class="col-sm-12">
     <ul class="list-inline">
       <li ng-repeat="track in song.tracks">
-        {{track.name}}
-        <input type="range" min="0" max="1" step="0.1" ng-model="volumeTrack[$index]" ng-change="volumeTrackChanged($index,track)"/>
-        {{volumeTrack[$index]}}
-        <button id='{{$index}}' class="btn btn-default btn-circle glyphicon glyphicon-volume-off" ng-click="muteTrack($index,track)"></button>
+        <input type="range" min="0" max="1" step="0.1" ng-model="volumeTrack[$index]" orient="vertical" ng-change="volumeTrackChanged($index,track)"/>
+        </br>
+        <div class="trackNames">
+          <button id='{{$index}}' class="btn btn-default btn-circle glyphicon glyphicon-volume-off" ng-click="muteTrack($index,track)"></button>
+          {{track.name}}
+        </div>
       </li>
     </ul>
   </div>
+
 
 </div>
