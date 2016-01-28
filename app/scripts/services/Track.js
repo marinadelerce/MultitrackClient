@@ -23,13 +23,13 @@ angular.module('multitrackClientApp')
         sample : null,
         muted : false,
         setVolume : function (value) {
-        if (volumeNode != undefined)
-          volumeNode.gain.value = value;
+        if (this.volumeNode != undefined)
+          this.volumeNode.gain.value = value;
         },
         muteUnmute : function () {
-          if (volumeNode != undefined) {
-            this.muted = !muted;
-            volumeNode.gain.value = (muted ? 0 : 1);
+          if (this.volumeNode != undefined) {
+            this.muted = !this.muted;
+            this.volumeNode.gain.value = (this.muted ? 0 : 1);
           }
         },
       }, name, url);

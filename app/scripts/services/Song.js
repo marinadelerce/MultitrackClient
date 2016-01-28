@@ -133,9 +133,9 @@ angular.module('multitrackClientApp')
           this.masterVolumeNode.gain.value = value;
       },
 
-      setTrackVolume : function(trackNumber, value) {
-        if (this.tracks[trackNumber] != undefined) {
-          this.tracks[trackNumber].setVolume(value);
+      setTrackVolume : function(track, value) {
+        if (track != undefined) {
+          track.setVolume(value);
         }
       },
 

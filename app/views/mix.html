@@ -24,13 +24,13 @@
     <button class="btn btn-default btn-circle glyphicon glyphicon-volume-down" ng-click="showSlider=!showSlider"></button>
     <input ng-show="showSlider" type="range" min="0" max="1" step="0.1" ng-model="volume" ng-change="volumeChanged()"/>
   </div>
-
-  <div class="col-sm-12" >
+  <div class="col-sm-12" style="margin-top: 20%;">
     <ul class="list-inline">
-      <li ng-repeat="track in selectedMusic.track">
+      <li ng-repeat="track in song.tracks">
         {{track.name}}
-        <input type="range" min="0" max="1" step="0.1" ng-model="volume" ng-change="volumeTrackChanged(track)"/>
-        <button class="btn btn-default btn-circle glyphicon glyphicon-volume-off" ng-click="muteTrack(track)"></button>
+        <input type="range" min="0" max="1" step="0.1" ng-model="volumeTrack[$index]" ng-change="volumeTrackChanged($index,track)"/>
+        {{volumeTrack[$index]}}
+        <button id='{{$index}}' class="btn btn-default btn-circle glyphicon glyphicon-volume-off" ng-click="muteTrack($index,track)"></button>
       </li>
     </ul>
   </div>

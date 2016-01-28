@@ -14,6 +14,7 @@ angular.module('multitrackClientApp')
   .controller('MixCtrl', function ($scope, $http, $location, $window, Constants, Song, Track) {
     $scope.musics = [];
     $scope.loadOK = false;
+    $scope.volumeTrack = [];
     var myInit = function() {
       $http.get(Constants.backendUrl + Constants.songPath)
         .then(function(res){
@@ -56,40 +57,63 @@ angular.module('multitrackClientApp')
         var ctx = new audioContext();
         console.log($scope.selectedMusic);
         var metadata = $scope.selectedMusic.song;
-        Song.init(metadata,ctx);
+        $scope.song = Song;
+        $scope.song.init(metadata,ctx);
+        console.log($scope.song);
         $scope.selectedMusic.track.forEach(function(element, index){
-          $scope.selectedMusic.track[index].num = index;
-          console.log($scope.selectedMusic.track[index].num);
-          Song.addTrack(element.name, Constants.backendUrl+element.path, index);
+         // $scope.selectedMusic.track[index].num = index;
+          //$scope.song.tracks[index].num = index;
+         // console.log($scope.song.tracks[index].num);
+          $scope.song.addTrack(element.name, Constants.backendUrl+element.path, index);
         });
-        Song.loadTracks();
+        $scope.song.loadTracks();
 
       }
       $scope.loadOK=true;
     };
 
     $scope.playSong = function(){
-      Song.play();
+      $scope.song.play();
     };
 
     $scope.pauseSong = function () {
-      Song.pause();
+      $scope.song.pause();
     };
 
     $scope.stopSong = function(){
-      Song.stop();
+      $scope.song.stop();
     };
 
     $scope.volumeChanged = function () {
-      Song.setMasterVolume($scope.volume);
+      $scope.song.setMasterVolume($scope.volume);
     };
 
     /*Erreur volumeNode des tracks*/
-    $scope.volumeTrackChanged = function (track) {
-      Song.setTrackVolume(track.num,$scope.volume);
+    $scope.volumeTrackChanged = function (index,track) {
+     // console.log("VolumeNode: " +Song.tracks[track.num].volumeNode.gain.value);
+      $scope.song.tracks.forEach(function(element){
+        if(element.name == track.name)
+          element.setVolume($scope.volumeTrack[index]);
+      });
     };
 
-    $scope.muteTrack = function(track) {
-      Song.muteUnmuteTrack(track.num);
+    $scope.muteTrack = function(index,track) {
+      $scope.song.tracks.forEach(function(element){
+        if(element.name == track.name){
+          element.muteUnmute();
+          if(element.muted) {
+            document.getElementById(index).classList.remove("glyphicon-volume-off");
+            document.getElementById(index).classList.add("glyphicon-volume-up");
+          }
+          else {
+            document.getElementById(index).classList.remove("glyphicon-volume-up");
+            document.getElementById(index).classList.add("glyphicon-volume-off");
+          }
+        }
+      });
     }
+
+   /* $scope.getTracks = function(){
+      Son
+    }*/
   });
