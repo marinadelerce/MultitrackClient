@@ -14,6 +14,6 @@ angular.module('multitrackClientApp')
   .constant('Constants', {
     backendUrl : "http://localhost:8081/",
     mixPath : "mix",
-    songPath : "song",
+    songPath : "songs",
     trackPath : "track"
   });
