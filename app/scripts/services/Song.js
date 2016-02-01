@@ -164,5 +164,13 @@ angular.module('multitrackClientApp')
 
       addTrack : function(name, url, trackNumber) {
         this.tracks[trackNumber] = new Track(name, url);
+      },
+
+      getTrackByName : function(trackName){
+        this.tracks.forEach(function(element){
+          if(element.name===trackName){
+            return element;
+          }
+        });
       }
   }});

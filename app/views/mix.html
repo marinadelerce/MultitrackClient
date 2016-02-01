@@ -1,9 +1,8 @@
 <div ng-show="!loadOK">
   <span>Choisissez un titre : </span>
-  <select ng-options="music.song for music in musics" ng-model="selectedMusic" ng-change="searchMixes(selectedMusic);
+  <select ng-options="music.song for music in musics" ng-model="selectedMusic" ng-change="searchMixes();
   musicChanged=true">
     <option value="">Liste des titres </option>
-    <option>bouh</option>
   </select>
   </br></br>
   <span>Mixages disponibles pour "{{selectedMusic.song}}":</span>
@@ -16,7 +15,7 @@
 <div ng-show="loadOK">
   <h2>Titre de l'original: {{selectedMusic.song}}</h2>
   <div class="col-md-12">
-    <span>Titre du mix :</span>
+    <span>Titre de votre mix :</span>
     <input type="text" ng-model="titleMix">
   </div>
 

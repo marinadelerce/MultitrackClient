@@ -29,8 +29,7 @@ angular.module('multitrackClientApp')
     angular.element(document).ready(myInit);
 
 
-    $scope.searchMixes = function(selectedMusic){
-      console.log("badabou");
+    $scope.searchMixes = function(){
       $http.get(Constants.backendUrl + Constants.mixPath +'/'+ $scope.selectedMusic._id)
         .then(function(res){
           $scope.mixes = res.data;
@@ -45,13 +44,22 @@ angular.module('multitrackClientApp')
       if(typeof($scope.selectedMix) != "undefined"){
         var audioContext = $window.AudioContext || $window.mozAudioContext || $window.webkitAudioContext;
         var ctx = new audioContext();
-        var metadata = $scope.selectedMix.name;
-        //Song.init(metadata,ctx);
-        $scope.selectedMix.track.forEach(function(element){
-          Song.addTrack(new Track(element.name, element.path));
+        var metadata = $scope.selectedMix.song.song;
+        var id = $scope.selectedMix.song._id;
+        $scope.song = Song;
+        $scope.song.init(metadata,ctx,id);
+        $scope.selectedMix.song.track.forEach(function(element, index){
+          $scope.song.addTrack(element.name, Constants.backendUrl+element.path, index);
         });
-        Song.loadTracks();
-
+        $scope.song.loadTracks();
+        //chargement des effets de la chanson
+        $scope.volume = $scope.selectedMix.masterVolume;
+        $scope.volumeChanged();
+        //chargement effets sur les pistes
+        $scope.selectedMix.trackEffects.forEach(function(element){
+          $scope.song.getTrackByName(element.track).setVolume(element.volume);
+          $scope.song.getTrackByName(element.track).muted=element.mute;
+        });
       }
       else if (typeof($scope.selectedMusic) != "undefined" && typeof($scope.selectedMix) == "undefined"){
         var audioContext = $window.AudioContext || $window.webkitAudioContext;
@@ -63,9 +71,6 @@ angular.module('multitrackClientApp')
         $scope.song.init(metadata,ctx, id);
         console.log($scope.song);
         $scope.selectedMusic.track.forEach(function(element, index){
-         // $scope.selectedMusic.track[index].num = index;
-          //$scope.song.tracks[index].num = index;
-         // console.log($scope.song.tracks[index].num);
           $scope.song.addTrack(element.name, Constants.backendUrl+element.path, index);
         });
         $scope.song.loadTracks();
