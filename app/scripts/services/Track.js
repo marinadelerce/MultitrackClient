@@ -26,6 +26,9 @@ angular.module('multitrackClientApp')
         if (this.volumeNode != undefined)
           this.volumeNode.gain.value = value;
         },
+        getVolume : function(){
+          return this.volumeNode.gain.value;
+        },
         muteUnmute : function () {
           if (this.volumeNode != undefined) {
             this.muted = !this.muted;

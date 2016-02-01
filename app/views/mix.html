@@ -14,7 +14,12 @@
 </div>
 
 <div ng-show="loadOK">
-  <h2>{{selectedMix}}</h2>
+  <h2>Titre de l'original: {{selectedMusic.song}}</h2>
+  <div class="col-md-12">
+    <span>Titre du mix :</span>
+    <input type="text" ng-model="titleMix">
+  </div>
+
   <button class="glyphicon glyphicon-menu-left btn btn-primary" ng-click="loadOK=false">Retour</button>
   </br>
   <div class="col-md-7 pull-right" ng-init="showSlider=false">
@@ -37,5 +42,8 @@
     </ul>
   </div>
 
+  <div class="col-md-7 pull-right">
+    <button class="btn btn-success" ng-click="enregistrerMix()">Enregistrer</button>
+  </div>
 
 </div>

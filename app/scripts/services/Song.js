@@ -15,6 +15,7 @@ angular.module('multitrackClientApp')
 
     return {
         metadata : null,
+        id : null,
         audioContext : null,
         url : "",
         tracks : [],
@@ -29,9 +30,10 @@ angular.module('multitrackClientApp')
         bufferLoader : null,
         masterVolumeNode : null,
         graphToBuild : true,
-      init:function(metadata, context){
+      init:function(metadata, context, id){
         this.metadata = metadata;
         this.audioContext = context;
+        this.id = id;
       },
 
       play:function() {
@@ -131,6 +133,10 @@ angular.module('multitrackClientApp')
       setMasterVolume : function(value) {
         if( this.masterVolumeNode != undefined)
           this.masterVolumeNode.gain.value = value;
+      },
+
+      getMasterVolume : function(){
+        return this.masterVolumeNode.gain.value;
       },
 
       setTrackVolume : function(track, value) {

@@ -15,6 +15,7 @@ angular.module('multitrackClientApp')
     $scope.musics = [];
     $scope.loadOK = false;
     $scope.volumeTrack = [];
+    $scope.titleMix="Untitled";
     var myInit = function() {
       $http.get(Constants.backendUrl + Constants.songPath)
         .then(function(res){
@@ -45,7 +46,7 @@ angular.module('multitrackClientApp')
         var audioContext = $window.AudioContext || $window.mozAudioContext || $window.webkitAudioContext;
         var ctx = new audioContext();
         var metadata = $scope.selectedMix.name;
-        Song.init(metadata,ctx);
+        //Song.init(metadata,ctx);
         $scope.selectedMix.track.forEach(function(element){
           Song.addTrack(new Track(element.name, element.path));
         });
@@ -57,8 +58,9 @@ angular.module('multitrackClientApp')
         var ctx = new audioContext();
         console.log($scope.selectedMusic);
         var metadata = $scope.selectedMusic.song;
+        var id = $scope.selectedMusic._id;
         $scope.song = Song;
-        $scope.song.init(metadata,ctx);
+        $scope.song.init(metadata,ctx, id);
         console.log($scope.song);
         $scope.selectedMusic.track.forEach(function(element, index){
          // $scope.selectedMusic.track[index].num = index;
@@ -111,9 +113,28 @@ angular.module('multitrackClientApp')
           }
         }
       });
-    }
+    };
 
-   /* $scope.getTracks = function(){
-      Son
-    }*/
+   $scope.enregistrerMix = function(){
+     var mix = {};
+     mix.name= $scope.titleMix;
+     mix.user_id=0;
+     mix.song_id = $scope.song.id;
+     mix.masterVolume =  $scope.song.getMasterVolume();
+     mix.trackEffects=[];
+
+     $scope.song.tracks.forEach(function(element, index){
+       mix.trackEffects[index].track = element.name;
+       mix.trackEffects[index].volume = element.getVolume();
+       mix.trackEffects[index].mute = element.muted;
+     });
+
+      $http.post(Constants.backendUrl+Constants.mixPath, JSON.stringify(mix))
+        .then(function(res){
+          $location.path('/');
+          console.log(res);
+        }, function(error){
+          console.log(error);
+        });
+   };
   });
