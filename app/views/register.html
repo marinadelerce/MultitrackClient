@@ -1,13 +1,16 @@
 <div class="jumbotron">
   <h1>Inscription</h1>
-  <form>
+  <form name="myForm">
     <span>Pseudo: </span>
-    <input type="text" placeholder="Entre ton pseudo..." ng-model="pseudo"/></br></br>
+    <input type="text" placeholder="Entre ton pseudo..." ng-model="pseudo" required/>
+    <span>Mot de passe: </span>
+    <input type="password" placeholder="Entre un mot de passe..." ng-model="pwd" required/>
+    </br></br>
     <span>Choisis ton niveau de droit: </span></br>
-    <input type="checkbox" ng-model="normal">Je veux pouvoir écouter des musiques, faire des mixages et mettre des commentaires
+    <input type="radio" ng-model="right" value="normal">Je veux pouvoir écouter des musiques, faire des mixages et mettre des commentaires
     </br>
-    <input type="checkbox" ng-model="admin">Je veux pouvoir écouter, créer et supprimer des mixages
+    <input type="radio" ng-model="right" value="admin">Je veux pouvoir écouter, créer et supprimer des mixages
+    </br>
+    <button class="btn btn-lg btn-success" ng-disabled="!myForm.$valid" ng-click="createUser()">Enregistrer <span class="glyphicon glyphicon-ok"></span></button>
   </form>
-  </br>
-  <p><a class="btn btn-lg btn-success" ng-href="#/">Enregistrer<span class="glyphicon glyphicon-ok"></span></a></p>
-</div>
+  </div>
