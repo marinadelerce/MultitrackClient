@@ -129,6 +129,7 @@ angular.module('multitrackClientApp')
      mix.trackEffects=[];
 
      $scope.song.tracks.forEach(function(element, index){
+       mix.trackEffects[index] = new Track();
        mix.trackEffects[index].track = element.name;
        mix.trackEffects[index].volume = element.getVolume();
        mix.trackEffects[index].mute = element.muted;
