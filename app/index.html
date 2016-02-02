@@ -43,6 +43,9 @@
                 <li ng-class="{active:isActive('/loadMusic')}"><a ng-href="/loadMusic">Musiques</a></li>
                 <li ng-class="{active:isActive('/mix')}"><a ng-href="/mix">Mixages</a></li>
               </ul>
+            <div class="username" ng-show="user != null">
+              Bienvenue {{user.name}}!
+            </div>
           </div>
 
         </div>

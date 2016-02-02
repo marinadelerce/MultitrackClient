@@ -15,5 +15,7 @@ angular.module('multitrackClientApp')
     backendUrl : "http://localhost:8081/",
     mixPath : "mix",
     songPath : "songs",
-    trackPath : "track"
+    trackPath : "track",
+    connexionPath : "connection",
+    userPath : "user"
   });

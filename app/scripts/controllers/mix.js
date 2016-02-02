@@ -11,7 +11,7 @@
  * Controller of the multitrackClientApp
  */
 angular.module('multitrackClientApp')
-  .controller('MixCtrl', function ($scope, $http, $location, $window, Constants, Song, Track) {
+  .controller('MixCtrl', function ($rootScope, $scope, $http, $location, $window, Constants, Song, Track) {
     $scope.musics = [];
     $scope.loadOK = false;
     $scope.volumeTrack = [];

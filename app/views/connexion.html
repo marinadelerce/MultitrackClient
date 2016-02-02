@@ -1,9 +1,11 @@
 <div class="jumbotron">
   <h1>Authentification</h1>
-  <form>
+  <form name="connexionForm">
     <span>Pseudo: </span>
-    <input type="text" placeholder="Entre ton pseudo..." ng-model="pseudo"/></br></br>
+    <input type="text" placeholder="Entre ton pseudo..." ng-model="pseudo" required/></br></br>
+    <span>Mot de passe: </span>
+    <input type="password" placeholder="Entre ton mot de passe..." ng-model="pwd" required/></br></br>
   </form>
   </br>
-  <p><a class="btn btn-lg btn-success" ng-href="#/">S'identifier<span class="glyphicon glyphicon-ok"></span></a></p>
+  <button class="btn btn-lg btn-success" ng-disabled="!connexionForm.$valid" ng-click="login()">Connexion <span class="glyphicon glyphicon-ok"></span></button>
 </div>
