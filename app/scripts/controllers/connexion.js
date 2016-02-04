@@ -18,10 +18,12 @@ angular.module('multitrackClientApp')
           $http.get(Constants.backendUrl+ Constants.userPath + '/'+res.data)
             .then(function(res){
               console.log(res);
-              $rootScope.user = res.data;
+              $rootScope.user ={};
+              $rootScope.user.name = res.data.name;
+              $rootScope.user.right = res.data.right;
 
               console.log($cookies);
-              $cookies.put('token', res.data.token);
+              $cookies.put('token', res.data.connection);
               $cookies.put('userName', res.data.name);
               var name = $cookies.get('userName');
               console.log(name);

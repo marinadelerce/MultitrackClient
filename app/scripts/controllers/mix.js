@@ -21,7 +21,6 @@ angular.module('multitrackClientApp')
         .then(function(res){
           $scope.musics = res.data;
           console.log(res);
-          console.log($scope.musics[0]);
         }, function (error){
           console.log(error);
         });
