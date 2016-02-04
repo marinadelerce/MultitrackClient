@@ -30,7 +30,7 @@
   </div>
   <div class="col-sm-12">
     <ul class="list-inline">
-      <li ng-repeat="track in song.tracks">
+      <li ng-repeat="track in song.tracks" ng-init="nameIndex[track.name]=$index">
         <input type="range" min="0" max="1" step="0.1" ng-model="volumeTrack[$index]" orient="vertical" ng-change="volumeTrackChanged($index,track)"/>
         </br>
         <div class="trackNames">

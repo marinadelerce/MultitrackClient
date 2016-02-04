@@ -172,7 +172,7 @@ angular.module('multitrackClientApp')
       setTrackByName : function(trackName, volumeT, muteT){
         this.tracks.forEach(function(element){
           if(element.name===trackName){
-            element.setVolume(volumeT);
+            element.setVolume(muteT ? 0 : volumeT);
             element.muted = muteT;
           }
         });

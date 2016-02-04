@@ -16,6 +16,8 @@ angular.module('multitrackClientApp')
     $scope.loadOK = false;
     $scope.volumeTrack = [];
     $scope.titleMix="Untitled";
+    $scope.nameIndex = [];
+
     var myInit = function() {
       $http.get(Constants.backendUrl + Constants.songPath)
         .then(function(res){
@@ -57,6 +59,7 @@ angular.module('multitrackClientApp')
           $scope.selectedMix.trackEffects.forEach(function(element){
             $scope.song.setTrackByName(element.track, element.volume, element.mute);
           });
+          $scope.initValTrackView();
           $scope.loadOK=true;
           $scope.$apply();
         });
@@ -75,6 +78,7 @@ angular.module('multitrackClientApp')
           $scope.song.addTrack(element.name, Constants.backendUrl+element.path, index);
         });
         $scope.song.loadTracks(function(){
+          $scope.initValTrackView();
           $scope.loadOK=true;
           $scope.$apply();
         });
@@ -118,7 +122,6 @@ angular.module('multitrackClientApp')
       $scope.song.setMasterVolume($scope.volume);
     };
 
-    /*Erreur volumeNode des tracks*/
     $scope.volumeTrackChanged = function (index,track) {
      // console.log("VolumeNode: " +Song.tracks[track.num].volumeNode.gain.value);
       $scope.song.tracks.forEach(function(element){
@@ -131,6 +134,9 @@ angular.module('multitrackClientApp')
       $scope.song.tracks.forEach(function(element){
         if(element.name == track.name){
           element.muteUnmute();
+          //affichage
+          var index = $scope.nameIndex[element.name];
+          $scope.volumeTrack[index] = element.getVolume();
           if(element.muted) {
             document.getElementById(index).classList.remove("glyphicon-volume-off");
             document.getElementById(index).classList.add("glyphicon-volume-up");
@@ -166,4 +172,24 @@ angular.module('multitrackClientApp')
           console.log(error);
         });
    };
+
+    $scope.initValTrackView = function(){
+
+      $scope.song.tracks.forEach(function(element){
+
+        var index = $scope.nameIndex[element.name];
+        $scope.volumeTrack[index] = element.getVolume();
+        if(element.muted) {
+          document.getElementById(index).classList.remove("glyphicon-volume-off");
+          document.getElementById(index).classList.add("glyphicon-volume-up");
+        }
+        else {
+          document.getElementById(index).classList.remove("glyphicon-volume-up");
+          document.getElementById(index).classList.add("glyphicon-volume-off");
+        }
+
+      });
+
+    };
+
   });
