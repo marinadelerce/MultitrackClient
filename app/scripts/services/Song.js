@@ -80,7 +80,7 @@ angular.module('multitrackClientApp')
         }
       },
 
-      loadTracks : function() {
+      loadTracks : function(callback) {
         var urlList = [];
         console.log(this.tracks.length);
         this.tracks.forEach(function(track) {
@@ -91,6 +91,9 @@ angular.module('multitrackClientApp')
           for (var i=0; i< bufferList.length; i++) {
             this.song.tracks[i].buffer = bufferList[i];
           }
+          this.song.buildGraph();
+          this.song.graphToBuild = false;
+          callback();
         }
 
         this.bufferLoader = new BufferLoader(this.audioContext, urlList, finishedLoading);
@@ -166,10 +169,11 @@ angular.module('multitrackClientApp')
         this.tracks[trackNumber] = new Track(name, url);
       },
 
-      getTrackByName : function(trackName){
+      setTrackByName : function(trackName, volumeT, muteT){
         this.tracks.forEach(function(element){
           if(element.name===trackName){
-            return element;
+            element.setVolume(volumeT);
+            element.muted = muteT;
           }
         });
       }

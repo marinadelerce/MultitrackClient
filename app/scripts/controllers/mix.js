@@ -50,15 +50,17 @@ angular.module('multitrackClientApp')
         $scope.selectedMix.song.track.forEach(function(element, index){
           $scope.song.addTrack(element.name, Constants.backendUrl+element.path, index);
         });
-        $scope.song.loadTracks();
-        //chargement des effets de la chanson
-        $scope.volume = $scope.selectedMix.masterVolume;
-        $scope.volumeChanged();
-        //chargement effets sur les pistes
-        $scope.selectedMix.trackEffects.forEach(function(element){
-          $scope.song.getTrackByName(element.track).setVolume(element.volume);
-          $scope.song.getTrackByName(element.track).muted=element.mute;
+        $scope.song.loadTracks(function(){
+          //chargement des effets de la chanson
+          $scope.song.setMasterVolume($scope.selectedMix.masterVolume);
+          //chargement effets sur les pistes
+          $scope.selectedMix.trackEffects.forEach(function(element){
+            $scope.song.setTrackByName(element.track, element.volume, element.mute);
+          });
+          $scope.loadOK=true;
+          $scope.$apply();
         });
+
       }
       else if (typeof($scope.selectedMusic) != "undefined" && typeof($scope.selectedMix) == "undefined"){
         var audioContext = $window.AudioContext || $window.webkitAudioContext;
@@ -72,7 +74,10 @@ angular.module('multitrackClientApp')
         $scope.selectedMusic.track.forEach(function(element, index){
           $scope.song.addTrack(element.name, Constants.backendUrl+element.path, index);
         });
-        $scope.song.loadTracks();
+        $scope.song.loadTracks(function(){
+          $scope.loadOK=true;
+          $scope.$apply();
+        });
 
         //mock commentaires
         $scope.song["comments"] = [];
@@ -95,7 +100,6 @@ angular.module('multitrackClientApp')
         console.log($scope.song.comments);
 
       }
-      $scope.loadOK=true;
     };
 
     $scope.playSong = function(){
