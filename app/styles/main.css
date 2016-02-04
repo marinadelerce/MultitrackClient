@@ -20,6 +20,12 @@ body {
   cursor: default;
 }
 
+.comments{
+  position:absolute;
+  bottom:0;
+  margin-top: 8%;
+}
+
 /* Everything but the jumbotron gets side spacing for mobile first views */
 .header,
 .marketing,

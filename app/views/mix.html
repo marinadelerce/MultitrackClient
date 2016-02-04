@@ -45,4 +45,14 @@
     <button class="btn btn-success" ng-click="enregistrerMix()">Enregistrer</button>
   </div>
 
+  <div class="col-sm-7 comments">
+    <ul>
+      <li ng-repeat="com in song.comments" class="pointer list-group-item">
+        <span>{{com.content}}</span>
+        <span class="glyphicon glyphicon-pencil btn-danger" aria-hidden="true" ng-click="editCat(cat)" ng-show="cat"></span>
+        <span class="glyphicon glyphicon-remove btn-danger remove" aria-hidden="true" ng-click="removeCat(cat)" ng-show="cat"></span>
+      </li>
+    </ul>
+  </div>
+
 </div>

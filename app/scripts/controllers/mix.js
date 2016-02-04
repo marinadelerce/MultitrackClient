@@ -74,6 +74,26 @@ angular.module('multitrackClientApp')
         });
         $scope.song.loadTracks();
 
+        //mock commentaires
+        $scope.song["comments"] = [];
+
+        var comment1 = {
+          "content" : "Hey ! Un super commentaire ! Génial ce mix !",
+          "user" : "Marina",
+          "createdAt" : "???"
+        };
+
+        var comment2 = {
+          "content" : "Hey ! Un autre super commentaire ! NUL ce mix !",
+          "user" : "Mael",
+          "createdAt" : "???"
+        };
+
+        $scope.song["comments"].push(comment1);
+        $scope.song["comments"].push(comment2);
+        console.log($scope.song["comments"]);
+        console.log($scope.song.comments);
+
       }
       $scope.loadOK=true;
     };
