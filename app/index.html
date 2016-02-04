@@ -40,8 +40,8 @@
           <div class="collapse navbar-collapse" id="js-navbar-collapse" ng-controller="NavCtrl">
               <ul class="nav navbar-nav">
                 <li ng-class="{active:isActive('/')}" ><a href="/">Accueil</a></li>
-                <li ng-class="{active:isActive('/loadMusic')}"><a ng-href="/loadMusic">Musiques</a></li>
-                <li ng-class="{active:isActive('/mix')}"><a ng-href="/mix">Mixages</a></li>
+                <li ng-class="{active:isActive('/loadMusic'),disabled:user==null}"><a ng-class="user!=null ? '' : 'inactive'" ng-href="/loadMusic">Musiques</a></li>
+                <li ng-class="{active:isActive('/mix'),disabled:user==null}"><a ng-class="user!=null ? '' : 'inactive'" ng-href="/mix">Mixages</a></li>
               </ul>
             <div class="username" ng-show="user != null">
               Bienvenue {{user.name}}!
