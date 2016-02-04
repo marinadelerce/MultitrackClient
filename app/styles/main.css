@@ -14,6 +14,12 @@ body {
   margin-top:1%;
 }
 
+.inactive {
+  color: #ccc;
+  pointer-events: none;
+  cursor: default;
+}
+
 /* Everything but the jumbotron gets side spacing for mobile first views */
 .header,
 .marketing,
