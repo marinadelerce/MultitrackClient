@@ -1,0 +1,16 @@
+<div class="titre">
+  <h1>Liste des mixes existantes</h1>
+</div>
+
+<div class="row marketing">
+  <ul class="list-group">
+    <li ng-repeat="mix in mixes" class="grouped">
+      <span>{{mix.name}}</span>
+       <span class="glyphicon glyphicon-remove btn-danger removelist" aria-hidden="true" ng-click="removeMix(mix)" ng-show="mix"></span>
+    </li>
+  </ul>
+  <!--div class="col-sm-12" style="margin-top: 20px">
+    <button class="btn btn-primary" ng-click="goToAddObject()">Ajouter un objet</button>
+  </div-->
+  <span class="alert alert-danger" ng-show="errorMsg">{{errorMsg}}</span>
+</div>

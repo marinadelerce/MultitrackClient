@@ -35,10 +35,10 @@ angular
         controller: 'RegisterCtrl',
         controllerAs: 'register'
       })
-      .when('/loadMusic', {
-        templateUrl: '../views/loadMusic.html',
-        controller: 'LoadMusicCtrl',
-        controllerAs: 'loadMusic'
+      .when('/editMusic', {
+        templateUrl: '../views/editMusic.html',
+        controller: 'EditMusicCtrl',
+        controllerAs: 'editMusic'
       })
       .when('/mix', {
         templateUrl: '../views/mix.html',
