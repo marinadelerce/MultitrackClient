@@ -17,6 +17,7 @@ angular.module('multitrackClientApp')
     $scope.volumeTrack = [];
     $scope.titleMix="Untitled";
     $scope.nameIndex = [];
+    var sliderVolumeG;
 
     var myInit = function() {
       $http.get(Constants.backendUrl + Constants.songPath)
@@ -55,6 +56,8 @@ angular.module('multitrackClientApp')
         $scope.song.loadTracks(function(){
           //chargement des effets de la chanson
           $scope.song.setMasterVolume($scope.selectedMix.masterVolume);
+          sliderVolumeG = new Slider("#sliderVol", {id: "sliderVol", min  : 0, max  : 100, value: $scope.selectedMix.masterVolume, step: 1});
+
           //chargement effets sur les pistes
           $scope.selectedMix.trackEffects.forEach(function(element){
             $scope.song.setTrackByName(element.track, element.volume, element.mute);
@@ -78,6 +81,8 @@ angular.module('multitrackClientApp')
           $scope.song.addTrack(element.name, Constants.backendUrl+element.path, index);
         });
         $scope.song.loadTracks(function(){
+          sliderVolumeG = new Slider("#sliderVol", {id: "sliderVol", min  : 0, max  : 100, value: 100, step: 1});
+
           $scope.initValTrackView();
           $scope.loadOK=true;
           $scope.$apply();
@@ -102,7 +107,6 @@ angular.module('multitrackClientApp')
         $scope.song["comments"].push(comment2);
         console.log($scope.song["comments"]);
         console.log($scope.song.comments);
-
       }
     };
 
@@ -190,6 +194,9 @@ angular.module('multitrackClientApp')
 
       });
 
+      sliderVolumeG.on("slide", function(slideEvt) {
+        $scope.song.setMasterVolume(slideEvt/100);
+      });
     };
 
   });
