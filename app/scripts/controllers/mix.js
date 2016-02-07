@@ -11,7 +11,7 @@
  * Controller of the multitrackClientApp
  */
 angular.module('multitrackClientApp')
-  .controller('MixCtrl', function ($rootScope, $scope, $http, $location, $window, Constants, Song, Track) {
+  .controller('MixCtrl', function ($rootScope, $scope, $http, $location, $window, Constants, Song, $cookies) {
     $scope.musics = [];
     $scope.loadOK = false;
     $scope.volumeTrack = [];
@@ -127,7 +127,6 @@ angular.module('multitrackClientApp')
     };
 
     $scope.volumeTrackChanged = function (index,track) {
-     // console.log("VolumeNode: " +Song.tracks[track.num].volumeNode.gain.value);
       $scope.song.tracks.forEach(function(element){
         if(element.name == track.name)
           element.setVolume($scope.volumeTrack[index]);
@@ -173,6 +172,7 @@ angular.module('multitrackClientApp')
      if(typeof (token)!=='undefined') {
        $http.post(Constants.backendUrl + Constants.mixPath + '/' + token, JSON.stringify(mix))
          .then(function (res) {
+           $scope.song.stop();
            $location.path('/');
            console.log(res);
          }, function (error) {
