@@ -24,21 +24,28 @@ angular.module('multitrackClientApp')
           $http.post(Constants.backendUrl + Constants.userPath + '/' +  Constants.connexionPath, {'name' : $scope.pseudo,"pwd":$scope.pwd})
             .then(function(res) {
               console.log(res.data);
-              $rootScope.user ={};
-              $rootScope.user.name = $scope.pseudo;
-              $rootScope.user.right = $scope.right;
+              $http.get(Constants.backendUrl+ Constants.userPath + '/'+res.data)
+                .then(function(res){
+                  console.log("data received");
 
-              console.log($rootScope.user);
+                  console.log(res.data);
+                  $rootScope.user ={};
+                  $rootScope.user.name = res.data.name;
+                  $rootScope.user.right = res.data.right;
+                  $rootScope.user.id = res.data._id;
 
-              console.log($cookies);
-              $cookies.put('token', res.data);
-              $cookies.put('userName', $scope.pseudo);
-              var name = $cookies.get('userName');
-              console.log(name);
-              var token = $cookies.get('token');
-              console.log(token);
+                  console.log($rootScope.user);
+                  console.log($cookies);
+                  $cookies.put('token', res.data.connection);
+                  $cookies.put('userName', res.data.name);
+                  var token = $cookies.get('token');
+                  console.log(token);
 
-              $location.path('/mix');
+                  $location.path('/mix');
+
+                }, function(errorConnection){
+                  console.log(errorConnection);
+                });
             },function(error) {
               //TODO: Manage error during post => display error message
               console.log("fail login during POST");

@@ -21,6 +21,7 @@ angular.module('multitrackClientApp')
               $rootScope.user ={};
               $rootScope.user.name = res.data.name;
               $rootScope.user.right = res.data.right;
+              $rootScope.user.id = res.data._id;
 
               console.log($cookies);
               $cookies.put('token', res.data.connection);
@@ -32,7 +33,7 @@ angular.module('multitrackClientApp')
 
             }, function(errorConnection){
               console.log(errorConnection);
-            })
+            });
         },function(error) {
           //TODO: Manage error during post => display error message
           console.log("fail login during POST");

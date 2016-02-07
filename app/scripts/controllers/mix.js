@@ -156,7 +156,7 @@ angular.module('multitrackClientApp')
    $scope.enregistrerMix = function(){
      var mix = {};
      mix.name= $scope.titleMix;
-     mix.owner=0;
+     mix.owner=$rootScope.user.id;
      mix.song_id = $scope.song.id;
      mix.masterVolume =  $scope.song.getMasterVolume();
      mix.trackEffects=[];
