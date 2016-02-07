@@ -29,6 +29,7 @@ angular.module('multitrackClientApp')
 
         bufferLoader : null,
         masterVolumeNode : null,
+        songAnalyser : null,
         graphToBuild : true,
       init:function(metadata, context, id){
         this.metadata = metadata;
@@ -118,8 +119,14 @@ angular.module('multitrackClientApp')
           // On active les boutons start et stop
           this.tracks[i].sample = sources[i];
         }
-        // Connect the master volume to the speakers
-        this.masterVolumeNode.connect(this.audioContext.destination);
+
+        this.songAnalyser = this.audioContext.createAnalyser();
+
+// Connect the master volume to the analyser
+        this.masterVolumeNode.connect(this.songAnalyser);
+
+// Connect the analyser to the speakers
+        this.songAnalyser.connect(this.audioContext.destination);
       },
 
       buildSourceNodes : function() {

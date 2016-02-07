@@ -17,8 +17,10 @@ angular.module('multitrackClientApp')
     };
 
     $scope.logout = function() {
-      $cookies.remove('token');
+      $cookies.remove('userToken');
       $cookies.remove('userName');
+      $cookies.remove('userRight');
+      $cookies.remove('userId');
       $rootScope.user = null;
       $location.path('/');
     };

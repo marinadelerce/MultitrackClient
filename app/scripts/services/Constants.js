@@ -17,5 +17,6 @@ angular.module('multitrackClientApp')
     songPath : "songs",
     trackPath : "track",
     connexionPath : "connection",
-    userPath : "user"
+    userPath : "user",
+    commentPath : "comment"
   });

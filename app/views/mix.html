@@ -1,64 +1,110 @@
-<div ng-show="!loadOK" ng-init="chargement = false">
-  <span>Choisissez un titre : </span>
-  <select ng-options="music.song for music in musics" ng-model="selectedMusic" ng-change="searchMixes();
-  musicChanged=true">
-    <option value="">Liste des titres </option>
-  </select>
-  </br></br>
-  <span>Mixages disponibles pour "{{selectedMusic.song}}":</span>
-  <select ng-options="mix.name for mix in mixes" ng-model="selectedMix">
-    <option value="">Liste des mixes</option>
-  </select>
-  <button class="btn btn-primary" ng-click="loadMusic()" ng-disabled="!musicChanged">Charger</button>
-  <div id="loader" ng-show="chargement"></div>
-</div>
+<div class="row">
+  <div class="col-md-12" ng-show="!loadOK" ng-init="chargement = false">
+    <div class="row">
+      <div class="col-md-12">
+        <h1>Bienvenue sur la page de création de mixages !</h1>
+      </div>
+    </div>
 
-<div ng-show="loadOK">
-  <h2>Titre de l'original: {{selectedMusic.song}}</h2>
-  <div class="col-md-12">
-    <span>Titre de votre mix :</span>
-    <input type="text" ng-model="titleMix">
-  </div>
 
-  <button class="glyphicon glyphicon-menu-left btn btn-primary" ng-click="loadOK=false">Retour</button>
-  </br>
-  <div class="col-md-7 pull-right">
-    <button class="glyphicon glyphicon-play btn btn-success btn-circle" ng-click="playSong()" ng-disabled="!musicChanged"></button>
-    <button class="glyphicon glyphicon-pause btn btn-warning btn-circle" ng-click="pauseSong()" ng-disabled="!musicChanged"></button>
-    <button class="glyphicon glyphicon-stop btn btn-danger btn-circle" ng-click="stopSong()" ng-disabled="!musicChanged"></button>
-    <span class="glyphicon glyphicon-volume-down spaceLeft"></span>
-    <input id="sliderVol" type="text"/>
-    <span class="glyphicon glyphicon-volume-up spaceLeft"></span>
-  </div>
-  <div class="col-sm-12">
-    <ul class="list-inline">
-      <li ng-repeat="track in song.tracks" ng-init="nameIndex[track.name]=$index">
-        <input type="range" min="0" max="1" step="0.1" ng-model="volumeTrack[$index]" orient="vertical" ng-change="volumeTrackChanged($index,track)"/>
-        </br>
-        <div class="trackNames">
-          <button id='{{$index}}' class="btn btn-default btn-circle glyphicon glyphicon-volume-off" ng-click="muteTrack($index,track)"></button>
-          {{track.name}}
-        </div>
-      </li>
-    </ul>
-  </div>
 
-  <div class="col-md-12">
-    <div class="col-md-7 pull-right">
-      <button class="btn btn-success" ng-click="enregistrerMix()">Enregistrer</button>
+    <div class="row">
+      <div class="col-md-12">
+        <h3>Choisissez une chanson que vous souhaitez mixer :
+        <select ng-options="music.song for music in musics" ng-model="selectedMusic" ng-change="searchMixes();
+                musicChanged=true">
+          <option value="">Liste des titres </option>
+        </select>
+        </h3>
+      </div>
+    </div>
+    <div class="row" ng-show="selectedMusic != null">
+      <div class="col-md-12">
+        <span>Mixages disponibles pour "{{selectedMusic.song}}":</span>
+        <select ng-options="mix.name for mix in mixes" ng-model="selectedMix">
+          <option value="">Liste des mixes</option>
+        </select>
+        <button class="btn btn-primary" ng-click="loadMusic()" ng-disabled="!musicChanged">Charger</button>
+        <div id="loader" ng-show="chargement"></div>
+      </div>
     </div>
   </div>
-  <div class="col-md-12 spaceTop">
-    <span class="alert alert-danger" ng-show="errorMsg">{{errorMsg}}</span>
-  </div>
 
-  <div class="col-md-12 spaceTop">
-    <ul>
-      <li ng-repeat="com in song.comments" class="pointer list-group-item">
-        <span>{{com.content}}</span>
-        <span class="glyphicon glyphicon-pencil btn-danger" aria-hidden="true" ng-click="editCat(cat)" ng-show="cat"></span>
-        <span class="glyphicon glyphicon-remove btn-danger remove" aria-hidden="true" ng-click="removeCat(cat)" ng-show="cat"></span>
-      </li>
-    </ul>
+  <div class="col-md-12" ng-show="loadOK">
+    <div class="row">
+      <div class="col-md-12 songTitle">
+        <h2>{{selectedMusic.song}}</h2>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <h3 class="titleMix" editable-text="titleMix" e-form="titleMixForm">{{titleMix || "Inconnu"}}</h3>
+        <button class="btn btn-default" ng-click="titleMixForm.$show()" ng-hide="titleMixForm.$visible">
+          <span class="glyphicon glyphicon-pencil"></span>
+        </button>
+        <!--button class="glyphicon glyphicon-menu-left btn btn-primary" ng-click="loadOK=false">Retour</button-->
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-7 col-md-offset-3">
+        <button class="glyphicon glyphicon-play btn btn-success btn-circle" ng-click="playSong()" ng-disabled="!musicChanged"></button>
+        <button class="glyphicon glyphicon-pause btn btn-warning btn-circle" ng-click="pauseSong()" ng-disabled="!musicChanged"></button>
+        <button class="glyphicon glyphicon-stop btn btn-danger btn-circle" ng-click="stopSong()" ng-disabled="!musicChanged"></button>
+        <span class="glyphicon glyphicon-volume-down spaceLeft"></span>
+        <input id="sliderVol" type="text"/>
+        <span class="glyphicon glyphicon-volume-up spaceLeft"></span>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <ul class="list-inline">
+          <li ng-repeat="track in song.tracks" ng-init="nameIndex[track.name]=$index">
+            <input type="range" min="0" max="1" step="0.1" ng-model="volumeTrack[$index]" orient="vertical" ng-change="volumeTrackChanged($index,track)"/>
+            </br>
+            <div class="trackNames">
+              <button id='{{$index}}' class="btn btn-default btn-circle glyphicon glyphicon-volume-off" ng-click="muteTrack($index,track)"></button>
+              {{track.name}}
+            </div>
+          </li>
+        </ul>
+      </div>
+      <div class="col-md-6">
+        <canvas id="spectre"></canvas>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-12">
+        <div class="col-md-7 pull-right">
+          <button class="btn btn-success" ng-click="enregistrerMix()">Enregistrer</button>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12 spaceTop">
+        <span class="alert alert-danger" ng-show="errorMsg">{{errorMsg}}</span>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-12 spaceTop">
+        <ul>
+          <li>
+            <input type="text" ng-model="comment">
+            <input type="number" min="0" max="5" ng-model="rate">
+            <button class="btn btn-primary" ng-click="createComment()">Valider</button>
+          </li>
+          <li ng-repeat="com in comments" class="pointer list-group-item">
+            <h4>{{com.user_id}}</h4>
+            <span editable-text="com.content" e-form="commentForm" onaftersave="editCom(com)">{{com.content || ""}}</span>
+            <span editable-number="com.rate" e-min="0" e-max="5" onaftersave="editCom(com)">{{com.rate || "0"}}</span>
+            <span class="glyphicon glyphicon-pencil btn btn-primary" aria-hidden="true" ng-click="commentForm.$show()" ng-hide="commentForm.$visible"></span>
+            <span class="glyphicon glyphicon-remove btn btn-danger removeList" aria-hidden="true" ng-click="removeComment(com)"></span>
+          </li>
+        </ul>
+
+      </div>
+    </div>
   </div>
 </div>
