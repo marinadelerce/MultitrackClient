@@ -168,13 +168,20 @@ angular.module('multitrackClientApp')
        mix.trackEffects[index].mute = element.muted;
      });
 
-      $http.post(Constants.backendUrl+Constants.mixPath, JSON.stringify(mix))
-        .then(function(res){
-          $location.path('/');
-          console.log(res);
-        }, function(error){
-          console.log(error);
-        });
+     var token = $cookies.get('token');
+
+     if(typeof (token)!=='undefined') {
+       $http.post(Constants.backendUrl + Constants.mixPath + '/' + token, JSON.stringify(mix))
+         .then(function (res) {
+           $location.path('/');
+           console.log(res);
+         }, function (error) {
+           console.log(error);
+         });
+     }
+     else {
+       $scope.errorMsg = 'Veuillez vous reconnecter.';
+     }
    };
 
     $scope.initValTrackView = function(){
