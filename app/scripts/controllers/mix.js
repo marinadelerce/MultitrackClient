@@ -114,7 +114,7 @@ angular.module('multitrackClientApp')
 
     $scope.loadMusic =  function(){
       $scope.chargement = true;
-      if(typeof($scope.selectedMix) != "undefined"){
+      if($scope.selectedMix != null){
         var audioContext = $window.AudioContext || $window.mozAudioContext || $window.webkitAudioContext;
         var ctx = new audioContext();
         var metadata = $scope.selectedMix.song.song;
@@ -151,7 +151,7 @@ angular.module('multitrackClientApp')
 
 
       }
-      else if (typeof($scope.selectedMusic) != "undefined" && typeof($scope.selectedMix) == "undefined"){
+      else if ($scope.selectedMusic != null && $scope.selectedMix == null){
         var audioContext = $window.AudioContext || $window.webkitAudioContext;
         var ctx = new audioContext();
         console.log($scope.selectedMusic);
