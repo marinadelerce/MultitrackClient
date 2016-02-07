@@ -43,6 +43,7 @@ angular.module('multitrackClientApp')
     };
 
     $scope.loadMusic =  function(){
+      $scope.chargement = true;
       if(typeof($scope.selectedMix) != "undefined"){
         var audioContext = $window.AudioContext || $window.mozAudioContext || $window.webkitAudioContext;
         var ctx = new audioContext();
