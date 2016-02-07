@@ -42,14 +42,16 @@
     </ul>
   </div>
 
-  <div class="col-md-7 pull-right">
-    <button class="btn btn-success" ng-click="enregistrerMix()">Enregistrer</button>
-  </div>
   <div class="col-md-12">
+    <div class="col-md-7 pull-right">
+      <button class="btn btn-success" ng-click="enregistrerMix()">Enregistrer</button>
+    </div>
+  </div>
+  <div class="col-md-12 spaceTop">
     <span class="alert alert-danger" ng-show="errorMsg">{{errorMsg}}</span>
   </div>
 
-  <div class="col-sm-7 comments">
+  <div class="col-md-12 spaceTop">
     <ul>
       <li ng-repeat="com in song.comments" class="pointer list-group-item">
         <span>{{com.content}}</span>

@@ -231,3 +231,7 @@ input[type='range']:focus {
 .spaceLeft{
   margin-left: 10px;
 }
+
+.spaceTop{
+  margin-top: 10px;
+}
