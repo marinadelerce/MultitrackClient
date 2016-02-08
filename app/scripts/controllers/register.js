@@ -30,16 +30,17 @@ angular.module('multitrackClientApp')
 
                   console.log(res.data);
                   $rootScope.user ={};
+                  $rootScope.user.token = res.data.connection;
                   $rootScope.user.name = res.data.name;
                   $rootScope.user.right = res.data.right;
                   $rootScope.user.id = res.data._id;
 
                   console.log($rootScope.user);
                   console.log($cookies);
-                  $cookies.put('token', res.data.connection);
+                  $cookies.put('userToken', res.data.connection);
                   $cookies.put('userName', res.data.name);
-                  var token = $cookies.get('token');
-                  console.log(token);
+                  $cookies.put('userRight', res.data.right);
+                  $cookies.put('userId', res.data._id);
 
                   $location.path('/mix');
 
