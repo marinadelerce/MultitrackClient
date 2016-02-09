@@ -96,7 +96,7 @@
             <button class="btn btn-primary" ng-click="createComment()">Valider</button>
           </li>
           <li ng-repeat="com in comments" class="pointer list-group-item">
-            <h4>{{com.user_id}}</h4>
+            <h4>{{com.user_name}}</h4>
             <span editable-text="com.content" e-form="commentForm" onaftersave="editCom(com)">{{com.content || ""}}</span>
             <span editable-number="com.rate" e-min="0" e-max="5" onaftersave="editCom(com)">{{com.rate || "0"}}</span>
             <span class="glyphicon glyphicon-pencil btn btn-primary" aria-hidden="true" ng-click="commentForm.$show()" ng-hide="commentForm.$visible"></span>

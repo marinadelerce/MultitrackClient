@@ -243,7 +243,7 @@ angular.module('multitrackClientApp')
        $http.post(Constants.backendUrl + Constants.mixPath + '/' + token, JSON.stringify(mix))
          .then(function (res) {
            $scope.song.stop();
-           $location.path('/');
+           $location.path('/editMusic');
            console.log(res);
          }, function (error) {
            console.log(error);
@@ -334,6 +334,8 @@ angular.module('multitrackClientApp')
           .then(function (res) {
             console.log(res);
             $scope.getComments($scope.selectedMix._id);
+            $scope.comment = "";
+            $scope.rate = 0;
           }, function (error) {
             console.log(error);
           });
