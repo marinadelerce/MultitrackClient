@@ -28,7 +28,7 @@ angular.module('multitrackClientApp')
     myInit();
 
     $scope.removeMix = function (mix){
-      var token = $cookies.get('token');
+      var token = $cookies.get('userToken');
 
       if(typeof (token)!=='undefined'){
         $http.delete(Constants.backendUrl + Constants.mixPath + '/' + mix._id + '/' + token)
