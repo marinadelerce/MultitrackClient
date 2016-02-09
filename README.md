@@ -84,7 +84,7 @@ Riana : json requests checking, mix management
 # Retrospective
 
 ## Strength
-Our server secured thanks to the connection token and reliable thanks to the JSON verification on the client request.
+The server is secured thanks to the connection token and reliable thanks to the JSON verification on the client request.
 The server side tests avoid regression during the development.
 The client side starts pretty fast
 
