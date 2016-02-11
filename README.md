@@ -7,7 +7,7 @@ Polytech Nice-Sophia SI - Programmable Web 2015-2016:
 
 * [Mael Audren De Kerdrel](mailto:audrenmael@gmail.com)
 * [Marina Delerce-Mauris](mailto:marina.delerce-mauris@etu.unice.fr)
-* [Riana Rabehasi](mailto:riana.rabehasi@etu.unice.fr)
+* [Riana Rabehasy](mailto:riana.rabehasy@etu.unice.fr)
 * [Sonia Tual](mailto:sonia.tual@etu.unice.fr)
 
 
